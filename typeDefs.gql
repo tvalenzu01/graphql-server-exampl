@@ -1,0 +1,158 @@
+type User {
+  _id: ID
+  username: String!
+  email: String!
+  password: String!
+  avatar: String
+  joinDate: String
+  favorites: [Post]
+}
+
+type Post {
+  _id: ID
+  title: String!
+  imageUrl: String!
+  categories: [String]!
+  description: String!
+  createdDate: String
+  likes: Int
+  createdBy: User!
+  messages: [Message]
+}
+
+type Message {
+  _id: ID
+  messageBody: String!
+  messageDate: String
+  messageUser: User!
+}
+
+type Profesional {
+  _id: ID
+  nombre: String!
+  apellidos: String!
+  rut: String!
+  sexo: String
+  email: String
+  direccion: String
+  especialidad: String
+  fechacreacion: String
+  creadopor: User!
+}
+
+type categoria {
+  _id: ID
+  nombre: String
+}
+type accion {
+  nombre: String!
+  descripcion: String!
+  uco: Int
+  valor: Int
+  categoria: categoria!
+}
+type prestacion {
+  _id: ID
+  accion: accion!
+  monto: Int!
+  realizada: Boolean
+  fechaCreacion: String
+  creadoPor: User!
+}
+
+type Tratamiento {
+  _id: ID
+  profesional: Profesional!
+  nombre: String
+  descripcion: String
+  prestaciones: [prestacion]
+  fechaCreacion: String
+}
+
+type Paciente {
+  _id: ID
+  nombre: String!
+  apellidos: String!
+  rut: String
+  sexo: String
+  email: String
+  direccion: String
+  ciudad: String
+  comuna: String
+  actividad: String
+  observacion: String
+  tratamientos: [Tratamiento]
+  fechaNacimiento: String
+  fechaCreacion: String
+  creadoPor: User!
+}
+
+type Prestacion {
+  nombre: String!
+  montoUco: Int
+  activa: Boolean
+  fechaCreacion: String
+  creadoPor: User!
+}
+
+type tipoPrestacion {
+  accion: String!
+  prestaciones: [Prestacion]
+  activa: Boolean
+  fechaCreacion: String
+  creadoPor: User!
+}
+
+type Anuncio {
+  _id: ID
+  titulo: String!
+  imagen: String!
+  descripcion: String!
+  fechaCreacion: String
+  creadoPor: User!
+}
+
+type Token {
+  token: String!
+}
+
+type Query {
+  getAnuncios: [Anuncio]
+  getCurrentUser: User
+  getCurrentUser1(username: String): User
+  getPacientes: [Paciente]
+  getPaciente(pacienteId: ID!): Paciente
+}
+
+type Mutation {
+  addAnuncio(
+    titulo: String!
+    imagen: String!
+    descripcion: String!
+    creadoPor: ID
+  ): Anuncio!
+  signupUser(username: String, email: String!, password: String!): Token
+  signinUser(username: String, password: String!): Token
+  crearPaciente(
+    nombre: String!
+    apellidos: String!
+    rut: String!
+    sexo: String
+    email: String
+    direccion: String
+    ciudad: String
+    fechaNacimiento: String
+    observacion: String
+    creadoPor: ID!
+  ): Paciente
+  creaProfesional(
+    nombre: String
+    apellidos: String
+    rut: String
+    sexo: String
+    email: String
+    direccion: String
+    especialidad: String
+    creadopor: ID!
+  ): Profesional!
+}
